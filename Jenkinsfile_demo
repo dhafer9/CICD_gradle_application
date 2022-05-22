@@ -37,7 +37,7 @@ pipeline{
                     sh '''
 
                    docker build -t dhafer96/springapp:${VERSION} .
-                   docker login -u dhafer96 -p $hub_pass
+                   docker login -u dhafer96 -p $docker_pass
                   docker push  dhafer96/springapp:${VERSION}
                   docker rmi dhafer96/springapp:${VERSION}  
                   docker image prune -f      
