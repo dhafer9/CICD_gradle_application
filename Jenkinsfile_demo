@@ -4,6 +4,18 @@ pipeline{
         VERSION = "${env.BUILD_ID}"
     }
     stages{
+        stage('Sonar quality check'){
+            steps{
+                script{
+
+                    dir('kubernetes/') {
+                        withEnv(['DATREE_TOKEN=b57804aa-a905-4a46-a77e-aec6c0fd9b86']) {
+                              sh 'helm datree test myapp/'
+                        }
+                    }
+                }
+            }
+        }
 
         stage("building docker image and pushing it to nexus"){
            steps{
@@ -36,7 +48,18 @@ pipeline{
             }
         }
 
+        stage('Manual approval'){
+            steps{
+                script{
 
+                    dir('kubernetes/') {
+                        withEnv(['DATREE_TOKEN=b57804aa-a905-4a46-a77e-aec6c0fd9b86']) {
+                              sh 'helm datree test myapp/'
+                        }
+                    }
+                }
+            }
+        }
 
 
         stage('Deploying application on k8s cluster') {
